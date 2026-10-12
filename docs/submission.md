@@ -21,13 +21,14 @@ All 18 tests pass: 13 analytical checks and five Streamlit application checks. C
 
 The local Streamlit server started successfully and returned HTTP 200. The empty state was inspected in the browser. Browser file chooser automation did not complete. A clearly labelled synthetic demo mode was added, and populated ranking, category, and Pareto charts were visually inspected. Remaining views passed automated interaction tests; real-data visual QA is pending. Automated application checks did exercise those views. GitHub Actions is configured; no successful remote workflow run is claimed.
 
-## Hosting actions pending
+## Verified live hosting
 
-Vercel's existing GitHub integration does not currently include this repository. Grant access specifically to afficionado-coffee-analysis, then import it with Root Directory website and framework Other. No build command is needed; serve the root of that directory.
+- Vercel submission page: https://afficionado-coffee-analysis.vercel.app/
+- Streamlit dashboard: https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/
 
-Streamlit Community Cloud currently requires sign-in and acceptance of its terms. After signing in, deploy from the repository, branch main, app path dashboard/app.py, Python 3.12. No data needs to be publicly bundled because the app accepts uploads.
+Both deployments succeeded. The Vercel page includes the verified dashboard link, repository link, and report downloads. The research paper download succeeded. The live Streamlit app loads and its synthetic demonstration mode produces populated analytics with visible disclosure.
 
-Live Vercel and Streamlit URLs are pending these account actions. A localhost address is not a public submission link.
+Vercel settings: root website, preset Other, no build command. Streamlit uses dashboard/app.py and the project's pinned dependencies. Uploaded real-data analysis remains available; no dataset has been supplied yet.
 
 ## Before final internship submission
 

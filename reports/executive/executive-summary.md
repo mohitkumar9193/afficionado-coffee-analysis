@@ -30,7 +30,7 @@ These benefits have not yet been measured. Evaluate subsequent trials using prod
 
 ### Stakeholder consideration
 
-The immediate priority is to complete the evidence base and validate the proposed actions with the retailer. The planned submission package comprises the research paper, interactive dashboard, and this executive summary. Cloud publication and final empirical reporting remain pending. No funding amount, regulatory action, or government endorsement is requested or implied.
+The immediate priority is to complete the evidence base and validate the proposed actions with the retailer. The planned submission package comprises the research paper, interactive dashboard, and this executive summary. GitHub publication, the live Streamlit dashboard, and the Vercel companion page are complete. Final empirical reporting remains pending. No funding amount, regulatory action, or government endorsement is requested or implied.
 
 Source basis: supplied internship project brief, implemented analytics modules, and verified test results. This summary should be updated with actual findings after transaction-data validation.
 

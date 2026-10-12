@@ -4,7 +4,7 @@ An internship project examining product popularity, revenue contribution, catego
 
 ## Status
 
-Project structure, analytics modules, and the Streamlit dashboard are implemented. All 18 calculation and Streamlit interaction tests pass. Real-data validation and findings, populated-chart visual QA and cloud hosting are pending. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
+Project structure, analytics modules, and the Streamlit dashboard are implemented. All 18 calculation and Streamlit interaction tests pass. Real-data validation and findings, final real-data visual QA is pending. Streamlit and Vercel are deployed. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
 
 ## Project structure
 
@@ -86,4 +86,14 @@ Reports currently document methods and verified implementation progress. Empiric
 ## Demonstration mode
 
 Select Explore synthetic demonstration data to preview populated charts without a file. All demo records and results are visibly labelled synthetic and are not retailer findings. Turn it off to analyze uploaded transaction data.
+
+## Live dashboard
+
+https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/
+
+The app is deployed and accepts uploads. Synthetic demonstration mode is optional and visibly labelled. Actual retailer findings remain pending the transaction dataset.
+
+## Live submission page
+
+https://afficionado-coffee-analysis.vercel.app/
 
