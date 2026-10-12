@@ -52,5 +52,5 @@ Private originals and regenerated data/processed outputs are excluded from Git. 
 
 ## Limitations and submission
 
-Costs, customer IDs, stock availability, complete unsold menu and service times are absent. Recommendation flags support investigation, not automatic removal. Actual Afficionado conclusions require its company data. Confirm internship acceptance of a public educational case study and the supplied Markdown report format. See docs/submission.md.
+Costs, customer IDs, stock availability, complete unsold menu and service times are absent. Recommendation flags support investigation, not automatic removal. Actual Afficionado conclusions require its company data. Confirm internship acceptance of a public educational case study and the supplied PDF/Markdown report formats. See docs/submission.md.
 

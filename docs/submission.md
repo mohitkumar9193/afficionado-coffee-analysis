@@ -22,5 +22,5 @@ Streamlit uses dashboard/app.py and Python 3.12. Vercel root is website/, preset
 
 A reproducible product optimization and revenue contribution case study using the public-domain Maven Roasters Coffee Shop Sales dataset, applied to the Afficionado Coffee Roasters project objectives. The dashboard supports company-specific CSV/Excel uploads. Published results describe the public educational dataset, not actual Afficionado sales.
 
-Confirm the evaluator accepts public educational data and Markdown reports. Company-specific findings require company records. If Word/PDF is mandatory, document conversion is still needed. Technical completion does not establish acceptance or a stipend outcome.
+PDF reports are included on the submission page, with editable Markdown sources in the repository. Confirm the evaluator accepts public educational data. Company-specific findings require company records. If editable Word format is mandatory, a Word conversion is still needed. Technical completion does not establish acceptance or a stipend outcome.
 
