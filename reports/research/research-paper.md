@@ -4,7 +4,7 @@ Internship research paper | 12 October 2026
 
 ## Abstract
 
-This study develops a reproducible framework for assessing product popularity, revenue contribution, category dependency, and menu concentration at Afficionado Coffee Roasters. Transaction revenue is calculated from purchased quantity and unit price, then summarized by product, product type, category, and store. A Streamlit dashboard provides filtered rankings, contribution charts, Pareto analysis, product drill-downs, and transparent recommendation rules. The analytical implementation has passed 16 calculation and application interaction tests. Empirical EDA and business findings remain pending receipt and validation of the transaction dataset; no product performance or financial outcome is asserted. The framework supports subsequent evidence-based menu decisions while distinguishing revenue from profit and observed sales from demonstrated customer preference.
+This study develops a reproducible framework for assessing product popularity, revenue contribution, category dependency, and menu concentration at Afficionado Coffee Roasters. Transaction revenue is calculated from purchased quantity and unit price, then summarized by product, product type, category, and store. A Streamlit dashboard provides filtered rankings, contribution charts, Pareto analysis, product drill-downs, and transparent recommendation rules. The analytical implementation has passed 17 calculation and application interaction tests. Empirical EDA and business findings remain pending receipt and validation of the transaction dataset; no product performance or financial outcome is asserted. The framework supports subsequent evidence-based menu decisions while distinguishing revenue from profit and observed sales from demonstrated customer preference.
 
 ## Background and context
 
@@ -86,7 +86,7 @@ Once data is supplied, findings must report the filter scope, currency, coverage
 
 ## Implementation verification
 
-Sixteen tests pass: thirteen analytical checks and three Streamlit application checks. The checks cover revenue reconciliation, invalid numeric values, product metadata conflicts, category and store denominators, Pareto boundaries and ties, recommendation rules, dashboard navigation, invalid uploads, empty selections, and filtered totals. A local server responds with HTTP 200. Synthetic test fixtures verify software behavior and are not business observations. Visual browser QA, Excel ingestion testing, and real-data validation remain outstanding.
+Seventeen tests pass: thirteen analytical checks and four Streamlit application checks. The checks cover revenue reconciliation, invalid numeric values, product metadata conflicts, category and store denominators, Pareto boundaries and ties, recommendation rules, dashboard navigation, invalid uploads, empty selections, and filtered totals. A local server responds with HTTP 200. Synthetic test fixtures verify software behavior and are not business observations. Visual browser QA with populated data and real-data validation remain outstanding. Excel ingestion and single-product selections pass application tests.
 
 ## Recommendations and decision rules
 
@@ -112,7 +112,7 @@ The project provides an implemented framework for product-centered revenue intel
 
 The project folder afficionado-coffee-analysis contains shared modules in src, the Streamlit entrypoint dashboard/app.py, tests, dependency requirements, and methodology guides. The tested environment uses Python 3.12, Streamlit 1.65.0, pandas 3.0.6, Plotly 6.9.0, and openpyxl 3.1.5. Direct dependency versions are pinned. Run the dashboard from the repository root with python -m streamlit run dashboard/app.py, and run verification with python -m unittest discover -s tests -v.
 
-CSV and XLSX uploads are analyzed without saving the uploaded file to the project. Exported summaries document values in the selected scope. Raw and processed local data are excluded from Git by default. Streamlit Community Cloud is the planned analytics host; Vercel is the planned companion page linking to the dashboard and reports. Cloud publishing has not yet occurred.
+CSV and XLSX uploads are analyzed without saving the uploaded file to the project. Exported summaries document values in the selected scope. Raw and processed local data are excluded from Git by default. Streamlit Community Cloud is the planned analytics host; Vercel is the planned companion page linking to the dashboard and reports. The project is published on GitHub; Streamlit and Vercel deployment remain pending account access.
 
 The project brief and implementation are the primary sources for this paper. Software documentation supports the application design; it does not constitute empirical evidence about Afficionado Coffee Roasters.
 
@@ -127,4 +127,5 @@ The project brief and implementation are the primary sources for this paper. Sof
 ## Completion requirements for empirical submission
 
 The final empirical paper must add source provenance, dataset coverage, validation outcomes, actual product and category tables, store comparisons, the observed Pareto curve, and recommendations tied to those findings. Each published numerical conclusion must match a verified output. Author and institutional submission details should be added using confirmed information. This version supplies the methodology and implementation evidence, while empirical conclusions await the dataset.
+
 

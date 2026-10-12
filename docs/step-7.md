@@ -13,3 +13,4 @@ The long tail is a review group, not an automatic menu removal list. Filters can
 Verification covers exact and crossed thresholds, ties, uniform revenue, one product, empty data, repeated product IDs, Top-N bounds, and reconciliation. Ten calculation tests pass; Python compilation passes. Interactive runtime validation and actual business findings remain pending.
 
 Run the app using the instructions in docs/step-5.md and upload the real CSV or XLSX dataset. The Pareto summary can be downloaded as revenue-concentration.csv from the dashboard.
+

@@ -23,3 +23,4 @@ Synthetic fixtures test reconciliation, distinct category/type pairs, overall ve
 ## Run
 
 Follow the environment setup in docs/step-5.md, then run `python -m streamlit run dashboard/app.py` from the project root and upload the actual CSV or XLSX dataset.
+

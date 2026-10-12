@@ -27,3 +27,4 @@ Invalid rows are excluded with a downloadable reason log. Duplicate records are 
 ## Verification and limitations
 
 Core tests use synthetic fixtures exclusively to verify exact revenue arithmetic, aggregation, ties, denominator reconciliation, invalid numeric values, empty input, and metadata conflict handling. Fixture values are not business findings. Real-data conclusions remain pending the supplied dataset. UI runtime checks require the Streamlit and chart dependencies.
+

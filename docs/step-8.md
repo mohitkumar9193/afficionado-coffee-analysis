@@ -35,3 +35,4 @@ There is no automatic removal recommendation. Confirm margin and product cost, s
 Synthetic fixtures verify KPI totals, five formula definitions, hero/promotion/yield/review classifications, metadata override, equal products, small scopes, and empty data. All 13 calculation tests pass, and Python compilation passes. Interactive runtime validation remains pending dependency installation.
 
 Launch instructions are in docs/step-5.md. Upload the actual CSV or XLSX dataset to populate the analysis.
+

@@ -35,3 +35,4 @@ Research paper (EDA, insights, recommendations), Streamlit dashboard, executive 
 ## Questions to resolve when data arrives
 
 Currency; Balance meaning; dataset coverage and completeness; transaction granularity; product ID consistency; dataset publishing permissions; any cost or margin fields. Products absent from transactions cannot be identified as zero-selling without a complete menu catalog.
+

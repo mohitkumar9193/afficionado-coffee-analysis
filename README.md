@@ -4,7 +4,7 @@ An internship project examining product popularity, revenue contribution, catego
 
 ## Status
 
-Project structure, analytics modules, and the Streamlit dashboard are implemented. All 16 calculation and Streamlit interaction tests pass. Real-data validation and findings, visual browser QA, reports, and cloud publishing are pending. See docs/step-9.md for launch instructions.
+Project structure, analytics modules, and the Streamlit dashboard are implemented. All 17 calculation and Streamlit interaction tests pass. Real-data validation and findings, populated-chart visual QA and cloud hosting are pending. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
 
 ## Project structure
 
@@ -13,11 +13,11 @@ data/raw/              Original dataset (kept unchanged and excluded from Git)
 data/processed/        Cleaned data and aggregates (excluded from Git)
 analysis/              EDA scripts or notebooks
 src/                   Shared validation, metrics, and aggregation logic
-dashboard/             Streamlit application; planned entrypoint: dashboard/app.py
+dashboard/             Streamlit application; entrypoint: dashboard/app.py
 reports/figures/       Verified charts for written deliverables
 reports/research/      Research paper source
 reports/executive/     Executive summary source
-website/               Vercel submission page, built in a later step
+website/               Vercel companion submission page
 docs/                  Requirements, methodology, and deployment guidance
 tests/                 Meaningful calculation and interaction checks
 ```
@@ -82,3 +82,4 @@ Streamlit Community Cloud: select this repository, main branch, and dashboard/ap
 Vercel: import this repository, set Root Directory to website, choose Other framework, and leave the build command empty. Serve website directly as the static output.
 
 Reports currently document methods and verified implementation progress. Empirical findings, profitability claims, and quantitative benefit estimates are pending source data.
+
