@@ -48,6 +48,12 @@ class DashboardTests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertTrue(app.error)
 
+    def test_demo_has_visible_disclosure(self):
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'dashboard/app.py')).run(timeout=30)
+        app.sidebar.checkbox[0].check().run(timeout=30)
+        self.assertFalse(app.exception)
+        self.assertTrue(any('DEMONSTRATION ONLY' in warning.value for warning in app.warning))
+
     def test_excel_single_product_and_filter_reset(self):
         from openpyxl import Workbook
         workbook = Workbook()
@@ -78,3 +84,4 @@ class DashboardTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

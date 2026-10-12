@@ -12,6 +12,7 @@ from src.products import REQUIRED, prepare, summarize
 from src.categories import category_performance
 from src.concentration import concentration
 from src.recommendations import evaluate
+from src.demo import demo_records
 
 st.set_page_config(page_title='Afficionado | Product Intelligence', page_icon='☕', layout='wide')
 st.title('☕ Afficionado Coffee Roasters')
@@ -20,14 +21,18 @@ st.write('Explore product performance, category dependency, and opportunities to
 st.sidebar.title('Analysis workspace')
 
 upload = st.sidebar.file_uploader('Upload transaction data', type=['csv', 'xlsx'])
+demo_mode = st.sidebar.checkbox('Explore synthetic demonstration data', value=False)
 st.sidebar.caption('CSV or Excel. Uploads are analyzed in this session and are not saved to the project.')
-if upload is None:
+if upload is None and not demo_mode:
     st.info('Upload your transaction dataset to begin. No sample sales or fabricated findings are displayed.')
     st.write('Required analysis columns: ' + ', '.join(REQUIRED))
     st.stop()
 
 try:
-    if upload.name.lower().endswith('.csv'):
+    if demo_mode:
+        st.warning('DEMONSTRATION ONLY — all records and results below are synthetic. They are not Afficionado sales or research findings.')
+        frame = pd.DataFrame(demo_records())
+    elif upload.name.lower().endswith('.csv'):
         frame = pd.read_csv(upload, dtype=str, keep_default_na=False)
     else:
         workbook = pd.ExcelFile(upload, engine='openpyxl')
@@ -77,7 +82,7 @@ metric = st.sidebar.radio('Rank products by', ['Units sold', 'Revenue'])
 sort_field = 'units_sold' if metric == 'Units sold' else 'revenue'
 total_revenue = products.revenue.sum()
 cards = st.columns(4)
-cards[0].metric('Revenue (dataset currency)', f'{total_revenue:,.2f}')
+cards[0].metric('Total revenue', f'{total_revenue:,.2f}', help='Computed quantity × unit price, in the dataset currency.')
 cards[1].metric('Units sold', f'{products.units_sold.sum():,}')
 cards[2].metric('Products sold', count)
 cards[3].metric('Top-N revenue share', f'{products.nlargest(top_n, "revenue").revenue.sum() / total_revenue * 100:.1f}%')
@@ -174,8 +179,8 @@ if section == 'Pareto & menu balance':
     pareto = pd.DataFrame(pareto_result['products'])
     concentration_metrics = pareto_result['metrics']
     concentration_cards = st.columns(4)
-    concentration_cards[0].metric('Products reaching 80% revenue', concentration_metrics['products_to_80'])
-    concentration_cards[1].metric('Share of observed menu needed', f"{concentration_metrics['products_to_80_pct']:.1f}%")
+    concentration_cards[0].metric('Products to 80%', concentration_metrics['products_to_80'], help='Minimum revenue-ordered product count reaching at least 80% of filtered revenue.')
+    concentration_cards[1].metric('Menu share to 80%', f"{concentration_metrics['products_to_80_pct']:.1f}%", help='Products needed for 80% divided by the distinct sold products in the active scope.')
     concentration_cards[2].metric(f'Top {top_n} revenue share', f"{concentration_metrics['top_n_revenue_pct']:.1f}%")
     concentration_cards[3].metric('Long-tail revenue share', f"{concentration_metrics['tail_revenue_pct']:.1f}%")
     st.caption('Products are ordered by revenue across the full filtered scope. The first product crossing 80% is included. Top-N changes only the concentration ratio, not the Pareto population.')
@@ -254,4 +259,5 @@ if section == 'Product drill-down':
     st.download_button('Download product source rows', transaction_view.to_csv(index=False), 'product-drilldown.csv', 'text/csv')
 
 st.divider()
-st.caption('Afficionado · Product intelligence | Revenue = quantity × unit price | Uploaded data is retained only in the active session.')
+st.caption('Afficionado · Product intelligence | Revenue = quantity × unit price | ' + ('Synthetic demonstration results — not business findings.' if demo_mode else 'Uploaded data is retained only in the active session.'))
+

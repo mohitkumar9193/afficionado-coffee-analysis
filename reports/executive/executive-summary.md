@@ -12,7 +12,7 @@ Afficionado Coffee Roasters needs a clear basis for deciding which products to p
 
 The project has an implemented Streamlit dashboard that calculates product revenue from quantity purchased multiplied by unit price. It compares product sales and revenue rankings, measures category and store performance, and identifies how many products generate 80% of revenue. Users can filter by store, category, and product type and download supporting tables.
 
-All 17 calculation and application interaction tests passed using synthetic test records. This establishes evidence of software behavior, rather than evidence of business performance. Actual transaction data has not yet been supplied, so the project cannot currently identify the retailer’s leading products, underperforming items, revenue totals, or category dependency. Real-data validation and business findings remain necessary before the summary can support product-specific decisions.
+All 18 calculation and application interaction tests passed using synthetic test records. This establishes evidence of software behavior, rather than evidence of business performance. Actual transaction data has not yet been supplied, so the project cannot currently identify the retailer’s leading products, underperforming items, revenue totals, or category dependency. Real-data validation and business findings remain necessary before the summary can support product-specific decisions.
 
 ### Recommended actions
 

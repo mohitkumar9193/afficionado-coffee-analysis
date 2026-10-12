@@ -4,7 +4,7 @@ An internship project examining product popularity, revenue contribution, catego
 
 ## Status
 
-Project structure, analytics modules, and the Streamlit dashboard are implemented. All 17 calculation and Streamlit interaction tests pass. Real-data validation and findings, populated-chart visual QA and cloud hosting are pending. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
+Project structure, analytics modules, and the Streamlit dashboard are implemented. All 18 calculation and Streamlit interaction tests pass. Real-data validation and findings, populated-chart visual QA and cloud hosting are pending. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
 
 ## Project structure
 
@@ -82,4 +82,8 @@ Streamlit Community Cloud: select this repository, main branch, and dashboard/ap
 Vercel: import this repository, set Root Directory to website, choose Other framework, and leave the build command empty. Serve website directly as the static output.
 
 Reports currently document methods and verified implementation progress. Empirical findings, profitability claims, and quantitative benefit estimates are pending source data.
+
+## Demonstration mode
+
+Select Explore synthetic demonstration data to preview populated charts without a file. All demo records and results are visibly labelled synthetic and are not retailer findings. Turn it off to analyze uploaded transaction data.
 

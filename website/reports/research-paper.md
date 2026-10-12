@@ -4,7 +4,7 @@ Internship research paper | 12 October 2026
 
 ## Abstract
 
-This study develops a reproducible framework for assessing product popularity, revenue contribution, category dependency, and menu concentration at Afficionado Coffee Roasters. Transaction revenue is calculated from purchased quantity and unit price, then summarized by product, product type, category, and store. A Streamlit dashboard provides filtered rankings, contribution charts, Pareto analysis, product drill-downs, and transparent recommendation rules. The analytical implementation has passed 17 calculation and application interaction tests. Empirical EDA and business findings remain pending receipt and validation of the transaction dataset; no product performance or financial outcome is asserted. The framework supports subsequent evidence-based menu decisions while distinguishing revenue from profit and observed sales from demonstrated customer preference.
+This study develops a reproducible framework for assessing product popularity, revenue contribution, category dependency, and menu concentration at Afficionado Coffee Roasters. Transaction revenue is calculated from purchased quantity and unit price, then summarized by product, product type, category, and store. A Streamlit dashboard provides filtered rankings, contribution charts, Pareto analysis, product drill-downs, and transparent recommendation rules. The analytical implementation has passed 18 calculation and application interaction tests. Empirical EDA and business findings remain pending receipt and validation of the transaction dataset; no product performance or financial outcome is asserted. The framework supports subsequent evidence-based menu decisions while distinguishing revenue from profit and observed sales from demonstrated customer preference.
 
 ## Background and context
 
@@ -86,7 +86,7 @@ Once data is supplied, findings must report the filter scope, currency, coverage
 
 ## Implementation verification
 
-Seventeen tests pass: thirteen analytical checks and four Streamlit application checks. The checks cover revenue reconciliation, invalid numeric values, product metadata conflicts, category and store denominators, Pareto boundaries and ties, recommendation rules, dashboard navigation, invalid uploads, empty selections, and filtered totals. A local server responds with HTTP 200. Synthetic test fixtures verify software behavior and are not business observations. Visual browser QA with populated data and real-data validation remain outstanding. Excel ingestion and single-product selections pass application tests.
+Eighteen tests pass: thirteen analytical checks and five Streamlit application checks. The checks cover revenue reconciliation, invalid numeric values, product metadata conflicts, category and store denominators, Pareto boundaries and ties, recommendation rules, dashboard navigation, invalid uploads, empty selections, and filtered totals. A local server responds with HTTP 200. Synthetic test fixtures verify software behavior and are not business observations. Visual browser QA with populated data and real-data validation remain outstanding. Excel ingestion and single-product selections pass application tests.
 
 ## Recommendations and decision rules
 

@@ -17,9 +17,9 @@ The Markdown reports are readable on GitHub and available for download from the 
 
 ## Verification
 
-All 17 tests pass: 13 analytical checks and four Streamlit application checks. Checks cover CSV/XLSX ingestion, every dashboard view, filtered totals, invalid schema, empty scope, single-product views, reset filters, ranking ties, contribution reconciliation, nested category/store denominators, Pareto thresholds, and recommendation rules. Tests use synthetic data solely for verification. Direct dependencies are pinned and package compatibility is checked separately.
+All 18 tests pass: 13 analytical checks and five Streamlit application checks. Checks cover CSV/XLSX ingestion, every dashboard view, filtered totals, invalid schema, empty scope, single-product views, reset filters, ranking ties, contribution reconciliation, nested category/store denominators, Pareto thresholds, and recommendation rules. Tests use synthetic data solely for verification. Direct dependencies are pinned and package compatibility is checked separately.
 
-The local Streamlit server started successfully and returned HTTP 200. The empty state was inspected in the browser. Browser file chooser automation did not complete, so visual inspection with populated charts remains pending. Automated application checks did exercise those views. GitHub Actions is configured; no successful remote workflow run is claimed.
+The local Streamlit server started successfully and returned HTTP 200. The empty state was inspected in the browser. Browser file chooser automation did not complete. A clearly labelled synthetic demo mode was added, and populated ranking, category, and Pareto charts were visually inspected. Remaining views passed automated interaction tests; real-data visual QA is pending. Automated application checks did exercise those views. GitHub Actions is configured; no successful remote workflow run is claimed.
 
 ## Hosting actions pending
 

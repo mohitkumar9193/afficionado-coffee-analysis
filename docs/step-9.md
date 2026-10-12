@@ -34,5 +34,5 @@ Streamlit Community Cloud entrypoint: dashboard/app.py. Repository-root .streaml
 
 ## Validation completed
 
-Installed and pinned Streamlit 1.65.0, pandas 3.0.6, Plotly 6.9.0, and openpyxl 3.1.5 in a local Python 3.12 environment. All 17 tests pass: 13 calculation tests plus four Streamlit AppTest checks covering all five views, CSV input, filtered totals, invalid schema, and empty states. The local server starts and responds with HTTP 200. Visual browser QA and real-data validation remain for the final verification step; Excel worksheet ingestion, single-product selections, and filter reset pass application tests.
+Installed and pinned Streamlit 1.65.0, pandas 3.0.6, Plotly 6.9.0, and openpyxl 3.1.5 in a local Python 3.12 environment. All 18 tests pass: 13 calculation tests plus four Streamlit AppTest checks covering all five views, CSV input, filtered totals, invalid schema, and empty states. The local server starts and responds with HTTP 200. Visual browser QA and real-data validation remain for the final verification step; Excel worksheet ingestion, single-product selections, and filter reset pass application tests.
 
