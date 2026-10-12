@@ -13,8 +13,14 @@ from src.categories import category_performance
 from src.concentration import concentration
 from src.recommendations import evaluate
 from src.demo import demo_records
+from src.public_data import load_public_data
+
+@st.cache_data(show_spinner='Loading verified Maven coffee case-study data…')
+def public_case_study():
+    return load_public_data()
 
 st.set_page_config(page_title='Afficionado | Product Intelligence', page_icon='☕', layout='wide')
+st.markdown('<style>[data-testid="stMetricValue"] {font-size:clamp(1.2rem,3vw,1.8rem)}</style>', unsafe_allow_html=True)
 st.title('☕ Afficionado Coffee Roasters')
 st.caption('Product Optimization & Revenue Contribution Analysis')
 st.write('Explore product performance, category dependency, and opportunities to improve the menu.')
@@ -22,8 +28,9 @@ st.sidebar.title('Analysis workspace')
 
 upload = st.sidebar.file_uploader('Upload transaction data', type=['csv', 'xlsx'])
 demo_mode = st.sidebar.checkbox('Explore synthetic demonstration data', value=False)
+case_mode = st.sidebar.checkbox('Use public Maven coffee case study', value=True)
 st.sidebar.caption('CSV or Excel. Uploads are analyzed in this session and are not saved to the project.')
-if upload is None and not demo_mode:
+if upload is None and not demo_mode and not case_mode:
     st.info('Upload your transaction dataset to begin. No sample sales or fabricated findings are displayed.')
     st.write('Required analysis columns: ' + ', '.join(REQUIRED))
     st.stop()
@@ -32,6 +39,10 @@ try:
     if demo_mode:
         st.warning('DEMONSTRATION ONLY — all records and results below are synthetic. They are not Afficionado sales or research findings.')
         frame = pd.DataFrame(demo_records())
+    elif upload is None and case_mode:
+        st.info('PUBLIC CASE STUDY — Maven Roasters is fictional. These are published educational records for January–June 2023, not actual Afficionado sales. Source: Maven Analytics, public domain.')
+        st.markdown('[Dataset source](https://mavenanalytics.io/data-playground/coffee-shop-sales)')
+        frame = public_case_study()
     elif upload.name.lower().endswith('.csv'):
         frame = pd.read_csv(upload, dtype=str, keep_default_na=False)
     else:
@@ -259,5 +270,5 @@ if section == 'Product drill-down':
     st.download_button('Download product source rows', transaction_view.to_csv(index=False), 'product-drilldown.csv', 'text/csv')
 
 st.divider()
-st.caption('Afficionado · Product intelligence | Revenue = quantity × unit price | ' + ('Synthetic demonstration results — not business findings.' if demo_mode else 'Uploaded data is retained only in the active session.'))
+st.caption('Afficionado · Product intelligence | Revenue = quantity × unit price | ' + ('Synthetic demonstration results — not business findings.' if demo_mode else 'Maven educational case study — not actual Afficionado sales.' if upload is None and case_mode else 'Uploaded data is retained only in the active session.'))
 

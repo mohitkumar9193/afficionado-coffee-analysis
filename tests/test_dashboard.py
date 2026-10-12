@@ -1,5 +1,6 @@
 """UI checks with synthetic upload fixtures, never business findings."""
 import io
+import pandas as pd
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -20,7 +21,12 @@ class DashboardTests(unittest.TestCase):
         return patch('streamlit.delta_generator.DeltaGenerator.file_uploader', return_value=uploaded)
 
     def test_empty_state(self):
-        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'dashboard/app.py')).run(timeout=30)
+        with patch('src.public_data.load_public_data', return_value=pd.read_csv(io.StringIO(CSV),dtype=str)):
+            app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'dashboard/app.py')).run(timeout=30)
+        self.assertFalse(app.exception)
+        self.assertEqual(app.metric[0].value, '131.00')
+        self.assertTrue(any('PUBLIC CASE STUDY' in item.value for item in app.info))
+        app.sidebar.checkbox[1].uncheck().run(timeout=30)
         self.assertFalse(app.exception)
         self.assertTrue(app.info)
 
@@ -49,7 +55,8 @@ class DashboardTests(unittest.TestCase):
         self.assertTrue(app.error)
 
     def test_demo_has_visible_disclosure(self):
-        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'dashboard/app.py')).run(timeout=30)
+        with patch('src.public_data.load_public_data', return_value=pd.read_csv(io.StringIO(CSV),dtype=str)):
+            app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'dashboard/app.py')).run(timeout=30)
         app.sidebar.checkbox[0].check().run(timeout=30)
         self.assertFalse(app.exception)
         self.assertTrue(any('DEMONSTRATION ONLY' in warning.value for warning in app.warning))

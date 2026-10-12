@@ -1,131 +1,184 @@
 # Product Optimization & Revenue Contribution Analysis for Afficionado Coffee Roasters
 
-Internship research paper | 12 October 2026
+Public dataset case study using Maven Roasters educational records  
+Prepared for Mohit's internship | 12 October 2026
 
 ## Abstract
 
-This study develops a reproducible framework for assessing product popularity, revenue contribution, category dependency, and menu concentration at Afficionado Coffee Roasters. Transaction revenue is calculated from purchased quantity and unit price, then summarized by product, product type, category, and store. A Streamlit dashboard provides filtered rankings, contribution charts, Pareto analysis, product drill-downs, and transparent recommendation rules. The analytical implementation has passed 18 calculation and application interaction tests. Empirical EDA and business findings remain pending receipt and validation of the transaction dataset; no product performance or financial outcome is asserted. The framework supports subsequent evidence-based menu decisions while distinguishing revenue from profit and observed sales from demonstrated customer preference.
+This study applies the Afficionado Coffee Roasters project objectives to the publicly available Maven Roasters Coffee Shop Sales dataset. Maven Roasters is a fictional business, and the results are case-study findings rather than observations of Afficionado. The dataset comprises 149,116 sales records from three New York City stores between 1 January and 30 June 2023. Validated quantity and unit-price calculations produce revenue of 698,812.33 and 214,470 units across 80 products, nine categories and 29 product types. Coffee contributes 38.63% of revenue and Tea contributes 28.11%. The ten leading products contribute 25.38%; 43 products are needed to exceed 80%. Product volume and revenue rankings differ materially. The study combines transparent screening rules with an interactive Streamlit dashboard to support merchandising trials and menu review. Missing cost, availability and customer data prevent profit conclusions, causal claims or justified automatic product removal.
 
-## Background and context
+## Background and problem statement
 
-The project brief identifies three specialty coffee retail concerns: products with high sales volume but modest revenue contribution, expensive products with limited sales, and crowded menus that can complicate service and customer choice. These concerns motivate product-level analysis rather than an analysis centered on purchase timing. They are business questions to investigate, not measured conditions established for this retailer.
+Specialty coffee menus can contain frequently purchased low-price products, expensive items with limited sales, and a long tail of menu variants. Product-level evidence helps retailers distinguish customer purchase volume from revenue contribution. The supplied project brief identifies a need for clearer product rankings, category dependency measures and underperforming-item review at Afficionado Coffee Roasters. No company transaction file was available for this study. A public educational dataset was therefore selected to demonstrate the full workflow and produce reproducible findings with explicitly limited applicability.
 
-## Problem statement and objectives
+## Objectives
 
-The brief describes limited visibility into product performance, category revenue dependency, and low-impact items. The primary objectives are to rank top- and least-selling products, quantify revenue contribution by product and category, and measure concentration across the observed menu. Secondary objectives are to identify hero product candidates and items requiring review or redesign, and to support menu simplification and merchandising decisions.
+The primary objectives are to identify highest- and lowest-selling observed products, quantify revenue shares by product and category, and measure revenue concentration. Secondary objectives are to identify hero product candidates, investigate pricing and promotion opportunities, and develop cautious review or redesign recommendations. These objectives concern sales performance. Profitability, service efficiency and financial improvement require additional evidence.
 
-The study asks which products lead in units and revenue, how those rankings differ, which categories and product types drive revenue, how mix varies across stores, and what share of sold products is needed to generate 80% of revenue. Profitability and operational improvements require additional cost and service evidence.
+## Dataset, provenance and scope
 
-## Dataset and analytical scope
+Source: [Maven Analytics Coffee Shop Sales](https://mavenanalytics.io/data-playground/coffee-shop-sales), labelled Public Domain by its publisher. The downloaded ZIP contains the Transactions worksheet of Coffee Shop Sales.xlsx. It has 149,116 rows and 11 source columns. All transaction_id values are unique in this file. Each row records one product and its quantity at a store and time. It should not be assumed to capture a complete multi-item basket, a distinct customer or customer purchase frequency.
 
-The expected source is transaction-level CSV or Excel data. The brief specifies year 2025, but the actual observation period, row count, currency, provenance, and completeness must be established during ingestion. An observation may be a transaction line rather than an entire customer purchase; transaction_id uniqueness must be verified before transaction counts or duplicate removal are interpreted.
+Coverage is 2023-01-01 through 2023-06-30, across Astoria, Hell's Kitchen and Lower Manhattan. There are 80 observed product IDs, nine categories and 29 category/type combinations. The source contains transaction_date rather than year, and has no Balance column. Year is derived from the source date without altering 2023 to match the brief's expected 2025. Balance remains unavailable and is unnecessary for sales revenue. Monetary results are expressed in source price units; a currency symbol is omitted because the worksheet does not explicitly declare currency.
 
-| Field | Expected meaning |
+| Source field | Interpretation and treatment |
 | --- | --- |
-| transaction_id | Transaction identifier; granularity to be verified |
-| year | Transaction year described as 2025 in the brief |
-| transaction_time | Time in HH:MM:SS format |
-| transaction_qty | Purchased units |
-| unit_price | Price per unit; currency to be confirmed |
-| store_id and store_location | Store identifier and physical location |
-| Balance | Account balance in the brief; business meaning unverified |
-| product_id | Product identifier used for aggregation |
-| product_category | Broad product group |
-| product_type | Variant within a category |
-| product_detail | Product description such as blend or flavor |
+| transaction_id | Unique source record identifier; retained |
+| transaction_date | Actual source date; preserved, year derived |
+| transaction_time | Source time; retained |
+| transaction_qty | Positive purchased whole units |
+| unit_price | Positive source price per unit |
+| store_id, store_location | Store identifiers and labels |
+| product_id | SKU identifier retained as text for grouping |
+| product_category | Source category preserved |
+| product_type | Product grouping within category |
+| product_detail | Source product description preserved |
 
-The dashboard currently requires seven analytical fields: product_id, product_detail, product_category, product_type, store_location, transaction_qty, and unit_price. Other supplied columns are retained. The complete 12-column schema still requires source inspection. All eligible categories are included; Coffee, Tea, and Chocolate are examples rather than a fixed list.
+Archive SHA-256: `be13c59c4cfdc0d1b08ceab514aea50a0cd329c916e4c3585eeef92a5b4c3a2c`. The dashboard checks this fingerprint before loading the public source. A changed download requires revalidation. The original workbook is preserved, and the prepared CSV is a separate derivative with the additional year column.
 
 ## Cleaning and validation
 
-The implementation trims and lowercases column names and trims key labels. It checks required analytical fields, accepts only finite positive prices and positive whole-number quantities, and records excluded rows with source-row numbers and reasons. Original uploads are not overwritten. Exclusions are eligibility rules rather than verified corrections to the retailer’s records; refunds, free items, and returns would require a separate agreed treatment.
+Column names are trimmed and normalized to lowercase, identifiers are retained as strings, and key text labels are trimmed. Quantity must be finite, positive and whole-number; price must be finite and positive. Required analytical fields must be populated. Invalid records would be logged by source row and excluded, with the original retained. Exact duplicates are inspected before deletion, because repeated sales can be legitimate.
 
-Exact duplicate records are retained until transaction granularity is confirmed. Unusually high quantities and prices are not automatically removed. Product IDs with conflicting descriptions, types, or categories are flagged, and store_id to location mappings require review. Balance is not used as revenue. Missing-value counts, exclusion rates, duplicate counts, and outlier distributions have not yet been measured on real records.
+The inspected file contains zero missing cells, zero exact duplicate rows, zero duplicate transaction IDs, zero excluded rows and zero conflicting product descriptions/categories/types for a product ID. Quantities range from 1 to 8; prices range from 0.80 to 45.00. No arbitrary upper-price cutoff is applied, since packaged beans and drinks have different price ranges. No product or store labels are renamed. No corrections or exclusions were necessary beyond formatting normalization and the derived year.
 
-## Revenue computation and KPI definitions
+## Methodology and KPI definitions
 
-For eligible source row i, revenue r_i equals transaction_qty_i multiplied by unit_price_i. Product revenue R_p is the sum of r_i for product p, and product volume Q_p is the sum of its quantities. Total revenue R is summed across the active filter scope. Decimal arithmetic is used for transaction revenue and the Pareto threshold; display and chart outputs use numerical summaries.
+Revenue for each record equals transaction_qty multiplied by unit_price. Decimal arithmetic computes transaction and grouped revenue. Units and revenue are grouped by product_id, category, category/type and store. Weighted average selling price equals revenue divided by units. Competition ranks give equal values the same rank. Rank gap equals revenue rank minus volume rank; a positive value identifies a stronger volume position than revenue position.
 
-| KPI | Formula and interpretation |
+| Required KPI | Formula and scope |
 | --- | --- |
-| Product revenue contribution | 100 × R_p / R; percentage of filtered revenue |
-| Product sales volume | Q_p; purchased units for each observed product |
-| Category revenue share | 100 × category revenue / R |
-| Revenue concentration ratio | 100 × top N product revenue / R; N is user selected |
-| Product Efficiency Score | R / distinct sold product IDs; revenue per SKU in dataset currency |
+| Product Revenue Contribution (%) | Product revenue / total selected revenue × 100 |
+| Product Sales Volume | Sum of product transaction quantities |
+| Category Revenue Share (%) | Category revenue / total selected revenue × 100 |
+| Revenue Concentration Ratio | Revenue of top N products / total selected revenue × 100 |
+| Product Efficiency Score | Total selected revenue / distinct sold product IDs |
 
-Revenue per SKU is the brief’s definition of Product Efficiency Score. It measures average revenue across observed sold products, not profit or preparation efficiency. Product and category percentages use total filtered revenue. Type contribution within a category uses that category’s revenue, and store mix uses each store’s revenue or units. Top-N limits rankings and changes CR-N without changing the underlying percentage denominator.
+Revenue per SKU is 8,735.15 for the full case study. This is a revenue allocation measure, not margin or operating efficiency. Full-scope shares use all eligible rows; type-within-category shares use the corresponding category denominator, and store mix uses that store's denominator. Top-N changes displayed rankings and CR-N, not the denominator of ordinary product shares.
 
-## Popularity and revenue analysis
+Pareto analysis sorts products by decreasing revenue and accumulates their shares. The product crossing the 80% threshold is included. The minimum set reaching 80% is termed the revenue-anchor set; the remainder is the long tail. These are analytical segments, not proof that tail items are unnecessary.
 
-Products are grouped by product_id and ranked separately by purchased units and revenue. Equal values share competition ranks. The rank gap is revenue rank minus volume rank, so a positive gap indicates a stronger volume position. Weighted average selling price equals product revenue divided by product units. Sales-row counts are available, but they cannot be treated as customer purchase frequency until transaction structure is confirmed.
+## Exploratory data analysis and findings
 
-## Category and store comparisons
+### Sales scale and product rankings
 
-Category totals measure revenue dependency. Product types are grouped jointly with their categories so identically named types in different categories remain distinct. Store revenue and unit shares provide absolute scale and normalized sales mix. A store-category heatmap displays observed mix, while product drill-downs show store-level performance. Differences may reflect availability, pricing, traffic, or coverage as well as demand; they do not establish customer preference by themselves.
+Total revenue is 698,812.33 and total units are 214,470. Average realized revenue per unit is 3.26. The highest-revenue products are:
 
-## Pareto analysis and menu balance
+| ID | Product | Units | Revenue | Share (%) | Volume rank | Revenue rank |
+| --- | --- | --- | --- | --- | --- | --- |
+| 61 | Sustainably Grown Organic Lg | 4,453 | 21,151.75 | 3.03 | 11 | 1 |
+| 59 | Dark chocolate Lg | 4,668 | 21,006.00 | 3.01 | 2 | 2 |
+| 39 | Latte Rg | 4,497 | 19,112.25 | 2.73 | 8 | 3 |
+| 41 | Cappuccino Lg | 4,151 | 17,641.75 | 2.52 | 35 | 4 |
+| 55 | Morning Sunrise Chai Lg | 4,346 | 17,384.00 | 2.49 | 19 | 5 |
+| 38 | Latte | 4,602 | 17,257.50 | 2.47 | 4 | 6 |
+| 36 | Jamaican Coffee River Lg | 4,395 | 16,481.25 | 2.36 | 15 | 7 |
+| 60 | Sustainably Grown Organic Rg | 4,329 | 16,233.75 | 2.32 | 20 | 8 |
+| 40 | Cappuccino | 4,266 | 15,997.50 | 2.29 | 25 | 9 |
+| 27 | Brazilian Lg | 4,317 | 15,109.50 | 2.16 | 22 | 10 |
 
-Products are sorted in descending revenue order, with product ID used as a deterministic tie-breaker. Cumulative contribution is calculated over all products in the filtered scope. The minimum set reaching at least 80% includes the first product crossing the threshold. Its size and percentage of observed products are reported. A tie warning appears if equal-revenue products straddle the boundary.
+Sustainably Grown Organic Lg (ID 61) leads revenue at 21,151.75, contributing 3.03%, while ranking eleventh in volume. Dark chocolate Lg (ID 59) ranks second in both measures. Products are identified by ID and full detail because similar names can describe different sizes or retail formats.
 
-Revenue anchors are this minimum set; the long tail comprises the remaining observed products. These labels describe relative concentration. The app also calculates the revenue share generated by the top 20% of products, rounding the count upward. It does not assume that 20% actually generates 80% of revenue. A narrow filter can mechanically increase concentration, and a long-tail label alone does not establish that an item should be removed.
+The strongest volume products include:
 
-## Exploratory data analysis and findings status
+| ID | Product | Units | Revenue | Share (%) | Volume rank | Revenue rank |
+| --- | --- | --- | --- | --- | --- | --- |
+| 50 | Earl Grey Rg | 4,708 | 11,770.00 | 1.68 | 1 | 26 |
+| 59 | Dark chocolate Lg | 4,668 | 21,006.00 | 3.01 | 2 | 2 |
+| 54 | Morning Sunrise Chai Rg | 4,643 | 11,607.50 | 1.66 | 3 | 29 |
+| 38 | Latte | 4,602 | 17,257.50 | 2.47 | 4 | 6 |
+| 44 | Peppermint Rg | 4,564 | 11,410.00 | 1.63 | 5 | 30 |
 
-Empirical EDA is pending. The intended sequence is to establish dataset coverage and quality, inspect quantity and price distributions, reconcile transaction revenue with all grouped summaries, examine product volume and revenue rankings, compare category and store mix, and evaluate the cumulative revenue curve. Observed zero sales cannot be identified from transaction data alone without a complete menu catalog.
+Earl Grey Rg (ID 50) leads units at 4,708 but ranks 26th in revenue. Morning Sunrise Chai Rg ranks third in units and 29th in revenue. These gaps show the effect of selling price and product mix; they do not establish weak margins. High unit sales can support footfall, customer choice and complementary purchases, so revenue rank alone is insufficient grounds for removal.
 
-| Analysis output | Current evidence status |
-| --- | --- |
-| Coverage and data quality | Source dataset pending; no observed counts or exclusion rates |
-| Top and bottom products | Analysis implemented; no identified business leaders |
-| Category and store performance | Analysis implemented; no measured dependency findings |
-| Revenue concentration | Analysis implemented; no empirical 80% product count |
-| Recommended products | Rules implemented; actual product classifications pending |
+The least-selling observed products are:
 
-Once data is supplied, findings must report the filter scope, currency, coverage, and eligible population alongside each total, rank, and percentage. Tables and charts should be exported from the verified dashboard or shared analytics modules. Product, category, type, and store revenue totals must reconcile; contribution shares must total 100% within their stated denominators.
+| ID | Product | Units | Revenue | Share (%) | Volume rank | Revenue rank |
+| --- | --- | --- | --- | --- | --- | --- |
+| 19 | Dark chocolate | 118 | 755.20 | 0.11 | 80 | 80 |
+| 18 | Spicy Eye Opener Chai | 122 | 1,335.90 | 0.19 | 79 | 78 |
+| 10 | Guatemalan Sustainably Grown | 134 | 1,340.00 | 0.19 | 78 | 77 |
+| 14 | Earl Grey | 142 | 1,270.90 | 0.18 | 77 | 79 |
+| 7 | Jamacian Coffee River | 146 | 2,883.50 | 0.41 | 76 | 62 |
 
-## Implementation verification
+Packaged Dark chocolate (ID 19) records 118 units and 755.20 revenue, the lowest observed figures. The dataset contains only sold products; it cannot identify items with zero sales without a complete menu catalog. Low sales might reflect restricted availability or a specialized menu role.
 
-Eighteen tests pass: thirteen analytical checks and five Streamlit application checks. The checks cover revenue reconciliation, invalid numeric values, product metadata conflicts, category and store denominators, Pareto boundaries and ties, recommendation rules, dashboard navigation, invalid uploads, empty selections, and filtered totals. A local server responds with HTTP 200. Synthetic test fixtures verify software behavior and are not business observations. Visual browser QA with populated data and real-data validation remain outstanding. Excel ingestion and single-product selections pass application tests.
+### Category and product-type performance
 
-## Recommendations and decision rules
+| Category | Units | Revenue | Share (%) |
+| --- | --- | --- | --- |
+| Coffee | 89,250 | 269,952.45 | 38.63 |
+| Tea | 69,737 | 196,405.95 | 28.11 |
+| Bakery | 23,214 | 82,315.64 | 11.78 |
+| Drinking Chocolate | 17,457 | 72,416.00 | 10.36 |
+| Coffee beans | 1,828 | 40,085.25 | 5.74 |
+| Branded | 776 | 13,607.00 | 1.95 |
+| Loose Tea | 1,210 | 11,213.60 | 1.60 |
+| Flavours | 10,511 | 8,408.80 | 1.20 |
+| Packaged Chocolate | 487 | 4,407.64 | 0.63 |
 
-Recommendation rules are exploratory screens evaluated against product medians within the active scope. Metadata conflicts receive data review before business action. Fewer than three observed products produce an insufficient-comparison label. Other products are classified in priority order so each receives one label, supporting evidence, and an action suggestion.
+Coffee and Tea together contribute 66.74% of revenue. This indicates dependency on the two main beverage categories. Bakery and Drinking Chocolate add meaningful revenue diversity. Coffee beans are treated separately from prepared Coffee, and Packaged Chocolate separately from Drinking Chocolate, preserving the source taxonomy.
 
-A hero candidate belongs to the 80% revenue anchor set and exceeds both median units and median revenue. The suggested action is to prioritize availability and visibility, subject to margin and capacity review. A promotion candidate has below-median units, above-median weighted price, and revenue at or above the median; a limited merchandising or sampling trial can test demand before expansion.
+The leading category/type combinations by revenue are:
 
-A revenue-yield review candidate has above-median units and a positive rank gap. Pricing, product mix, and complementary purchases can be investigated while preserving demonstrated popularity. A review or redesign candidate belongs to the long tail and falls below both unit and revenue medians. Availability, customer feedback, cost, and menu role should be reviewed before a redesign trial. Products meeting none of these rules remain under monitoring.
+| Category | Type | Revenue | Within category (%) |
+| --- | --- | --- | --- |
+| Coffee | Barista Espresso | 91,406.20 | 33.86 |
+| Tea | Brewed Chai tea | 77,081.95 | 39.25 |
+| Drinking Chocolate | Hot chocolate | 72,416.00 | 100.00 |
+| Coffee | Gourmet brewed coffee | 70,034.60 | 25.94 |
+| Tea | Brewed Black tea | 47,932.00 | 24.40 |
+| Tea | Brewed herbal tea | 47,539.50 | 24.20 |
+| Coffee | Premium brewed coffee | 38,781.15 | 14.37 |
+| Coffee | Organic brewed coffee | 37,746.50 | 13.98 |
 
-No specific item is recommended for removal at this stage. Permanent removal decisions require cost and margin data, stock availability, comparable sales exposure, preparation effort, customer feedback, a complete menu catalog, and strategic context. A pilot should measure revenue, units, margin where available, and substitution effects before wider changes. Expected gains cannot be quantified from the current evidence.
+Type contribution is measured within its category. A product type's category share should not be confused with its share of the entire business.
+
+### Store comparisons
+
+| Store | Units | Revenue | Share (%) |
+| --- | --- | --- | --- |
+| Hell's Kitchen | 71,737 | 236,511.17 | 33.84 |
+| Astoria | 70,991 | 232,243.91 | 33.23 |
+| Lower Manhattan | 71,742 | 230,057.25 | 32.92 |
+
+Revenue is distributed fairly evenly across the three stores, with shares from 32.92% to 33.84%. Hell's Kitchen leads revenue, while Lower Manhattan leads units by a narrow margin. Different revenue and unit rankings support examining realized prices and sales mix. These data do not measure traffic, store size, stockouts or operating hours, so a store ranking does not establish relative managerial effectiveness or customer preference.
+
+### Revenue concentration and menu balance
+
+The top ten products contribute 25.38% of revenue. The top 16 products, exactly 20% of the observed menu, contribute 37.10%. It takes 43 products, or 53.75% of the menu, to reach 80.52% of revenue. The other 37 products contribute 19.48%. There is no equal-revenue tie at the 80% boundary.
+
+The classic 80/20 pattern does not hold in this dataset. A broad group contributes material revenue, and no single product exceeds approximately 3.03%. Simplifying the menu to a small handful of best sellers would therefore expose substantial recorded revenue. The tail has lower collective impact per SKU, but its 19.48% share still warrants careful product-by-product review.
+
+## Recommendations
+
+The dashboard applies explicitly documented, exclusive median-based rules. An anchor with units and revenue strictly above their product medians is a hero candidate. A below-median volume product with above-median average price and at-least-median revenue is a promotion candidate. A popular product with a weaker revenue rank receives a yield review. A tail item below both volume and revenue medians receives a review or redesign flag. Other products are monitored. These rules flag 38 hero candidates, 2 promotion candidates, 2 yield reviews, 36 review/redesign candidates and 2 monitor items in the full scope. The number of hero candidates reflects the rule's broad screening purpose; it is not a recommendation to promote all of them simultaneously.
+
+Prioritize availability and visibility for a short list of strong products, including Dark chocolate Lg and Sustainably Grown Organic Lg. Validate costs and service capacity before expanding them. Review highly popular regular-size teas as entry-price or complementary-purchase products rather than treating rank gaps as failure. Test a small, measured merchandising trial for the promotion-screened Civet Cat and Chocolate Croissant, subject to stock availability, customer suitability and margins. A high price alone does not justify promotion.
+
+For packaged Dark chocolate and other low-volume items, check stock availability, days on menu, sourcing cost, shelf life, customer feedback and cross-sell role. Trial revised visibility, assortment or portioning before considering removal. Protect Coffee and Tea availability while testing complementary category opportunities. Compare stores using normalized mix and consistent periods rather than total revenue alone.
+
+Measure a trial against a comparable baseline or control store, recording units, revenue, contribution margin, stockouts and service time. Forecasted revenue uplift, cost savings and stipend eligibility are not established by this analysis.
+
+## Dashboard and reproducibility
+
+The Streamlit app includes KPI cards, volume/revenue ranking, category and type distribution, popularity/revenue scatter plots, Pareto charts, recommendation tables and product drill-downs. Store, category and type filters and a Top-N slider update the selected scope. It loads the credited public case study by default and accepts user CSV/XLSX uploads. A separate synthetic demonstration mode remains explicitly labelled.
+
+The repository includes an analysis runner, source checksum, pinned dependencies and tests. Run `python analysis/run_case_study.py archive.zip` to reproduce summaries in data/processed. Independent pandas integer-cent controls reconcile the overall Decimal revenue, total units and each of the 80 product totals. Category, type, store and nested summary revenues reconcile to the same overall total. Application tests cover all views and filtering behavior; public-data browser checks verify populated charts and disclosure.
 
 ## Limitations
 
-The absence of real transaction records prevents empirical findings. The expected schema lacks product cost, discount, tax, availability, service-time, and complete calendar-date information. Quantity multiplied by listed unit price should therefore be described as computed sales revenue until its accounting interpretation is confirmed. Whole-number and positive-value validation may exclude legitimate records if the business uses fractional sales, refunds, or complimentary items.
-
-The framework describes sold products rather than the complete menu. Median thresholds depend on filter choices and are not externally validated decision models. Revenue concentration measures dependency, not a probability of business failure. Store comparisons require comparable coverage and do not prove preference or causality. Benefits to profitability and operational efficiency remain proposed outcomes rather than demonstrated effects.
+These published records describe a fictional Maven business in 2023. They cannot substantiate actual Afficionado performance or a 2025 reporting period. No Balance, costs, discounts, taxes, returns policy, customer IDs, stock availability, complete menu, service time or marketing exposure are supplied. Gross computed sales are therefore distinguished from net revenue and profit. Six months cannot establish full-year seasonality. An observed sale does not reveal availability-adjusted demand. Ranking and median thresholds summarize the selected population and change with filters. Recommendations support further investigation and controlled trials, not causal conclusions or automatic menu deletion.
 
 ## Conclusion
 
-The project provides an implemented framework for product-centered revenue intelligence and a tested interactive dashboard. It connects popularity, contribution, category mix, and Pareto concentration to transparent product review rules. Completion of the empirical research requires source-data validation, reconciled EDA outputs, and evidence-based findings. The resulting analysis can then support menu and merchandising trials without overstating profit or service improvements.
+The completed case study demonstrates product-centric analytics with reproducible revenue computations and consistent reporting. Coffee and Tea account for two-thirds of revenue, product popularity differs from revenue ranking, and 43 of 80 products are needed to reach 80% of revenue. These findings support protecting proven products and reviewing the long tail carefully. Applying the recommendations to Afficionado requires its own transaction and operating data.
 
-## Reproducibility and references
+## References and live deliverables
 
-The project folder afficionado-coffee-analysis contains shared modules in src, the Streamlit entrypoint dashboard/app.py, tests, dependency requirements, and methodology guides. The tested environment uses Python 3.12, Streamlit 1.65.0, pandas 3.0.6, Plotly 6.9.0, and openpyxl 3.1.5. Direct dependency versions are pinned. Run the dashboard from the repository root with python -m streamlit run dashboard/app.py, and run verification with python -m unittest discover -s tests -v.
+Maven Analytics. Coffee Shop Sales. Public-domain educational dataset. Downloaded 12 October 2026. https://mavenanalytics.io/data-playground/coffee-shop-sales
 
-CSV and XLSX uploads are analyzed without saving the uploaded file to the project. Exported summaries document values in the selected scope. Raw and processed local data are excluded from Git by default. Streamlit Community Cloud is the planned analytics host; Vercel is the planned companion page linking to the dashboard and reports. The project is published on GitHub, with a live Streamlit dashboard and Vercel companion page. Empirical findings remain pending the source dataset.
-
-The project brief and implementation are the primary sources for this paper. Software documentation supports the application design; it does not constitute empirical evidence about Afficionado Coffee Roasters.
-
-[1] Afficionado Coffee Roasters internship project brief supplied in this conversation. Background, objectives, expected schema, methodology, KPIs, and deliverables. Accessed 12 October 2026.
-
-[2] Project implementation. src/products.py, src/categories.py, src/concentration.py, src/recommendations.py, dashboard/app.py, and tests. Local project version assessed 12 October 2026.
-
-[3] Streamlit. Understanding Streamlit’s client-server architecture. https://docs.streamlit.io/develop/concepts/architecture/architecture. Accessed 12 October 2026. The documented architecture supports the Python server and browser client design used here.
-
-[4] Streamlit. Deploy your app on Community Cloud. https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy. Accessed 12 October 2026. The documented GitHub repository and entrypoint deployment flow informs the hosting plan.
-
-## Completion requirements for empirical submission
-
-The final empirical paper must add source provenance, dataset coverage, validation outcomes, actual product and category tables, store comparisons, the observed Pareto curve, and recommendations tied to those findings. Each published numerical conclusion must match a verified output. Author and institutional submission details should be added using confirmed information. This version supplies the methodology and implementation evidence, while empirical conclusions await the dataset.
-
+GitHub: https://github.com/mohitkumar9193/afficionado-coffee-analysis  
+Dashboard: https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/  
+Submission page: https://afficionado-coffee-analysis.vercel.app/
 

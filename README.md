@@ -1,99 +1,56 @@
 # Product Optimization & Revenue Contribution Analysis for Afficionado Coffee Roasters
 
-An internship project examining product popularity, revenue contribution, category dependency, and menu concentration.
+Completed public-data internship case study with an interactive dashboard, reproducible analysis, research paper and executive summary.
 
-## Status
+## Source and scope
 
-Project structure, analytics modules, and the Streamlit dashboard are implemented. All 18 calculation and Streamlit interaction tests pass. Real-data validation and findings, final real-data visual QA is pending. Streamlit and Vercel are deployed. Research paper and executive summary are included. See docs/step-9.md for launch instructions.
+No actual Afficionado dataset was supplied. Results use the public Maven Analytics Coffee Shop Sales dataset for **Maven Roasters, a fictional business**, covering January–June 2023. Findings are educational case-study results, not actual Afficionado or 2025 sales. The publisher labels the dataset Public Domain.
 
-## Project structure
+Source: https://mavenanalytics.io/data-playground/coffee-shop-sales
 
-```text
-data/raw/              Original dataset (kept unchanged and excluded from Git)
-data/processed/        Cleaned data and aggregates (excluded from Git)
-analysis/              EDA scripts or notebooks
-src/                   Shared validation, metrics, and aggregation logic
-dashboard/             Streamlit application; entrypoint: dashboard/app.py
-reports/figures/       Verified charts for written deliverables
-reports/research/      Research paper source
-reports/executive/     Executive summary source
-website/               Vercel companion submission page
-docs/                  Requirements, methodology, and deployment guidance
-tests/                 Meaningful calculation and interaction checks
+The original has 149,116 rows and 11 columns. The prepared data preserves all rows and adds year derived from transaction_date. Balance is absent and is not invented. No missing cells, duplicates, invalid quantities/prices or conflicting product metadata were found. See data/public/README.md for attribution and checksums.
+
+## Verified findings
+
+| Measure | Result |
+| --- | --- |
+| Computed revenue | 698,812.33 source price units |
+| Units sold | 214,470 |
+| Products / categories / types / stores | 80 / 9 / 29 / 3 |
+| Coffee / Tea revenue share | 38.63% / 28.11% |
+| Top ten product revenue share | 25.38% |
+| Products needed for 80% revenue | 43 (53.75%) |
+| Revenue per sold SKU | 8,735.15 |
+
+Revenue equals quantity × price, not profit. The worksheet does not explicitly declare currency.
+
+## Live deliverables
+
+- Dashboard: https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/
+- Vercel page: https://afficionado-coffee-analysis.vercel.app/
+- Research paper: reports/research/research-paper.md
+- Executive summary: reports/executive/executive-summary.md
+
+The dashboard defaults to the clearly credited public case study. It supports CSV/XLSX uploads, a separately disclosed synthetic demo, store/category/type filters, Top-N rankings, category comparisons, scatter plots, Pareto analysis, recommendations and product drill-downs. Vercel serves website/; Streamlit runs dashboard/app.py using Python 3.12.
+
+## Setup and reproduction
+
+```sh
+pip install -r requirements.txt
+python -m streamlit run dashboard/app.py
+python analysis/run_case_study.py path/to/publisher-archive.zip
+python -m unittest discover -s tests -v
 ```
 
-## Delivery approach
+Run from the repository root using Python 3.12. Direct dependencies are pinned. The analysis runner validates the source checksum, writes summaries to data/processed and reconciles Decimal revenue against independent integer-cent controls for the total and every product. Category, type, store and nested totals also reconcile. All 18 unit/application tests pass. An additional full-source application check verifies every view and the Astoria filter. Remote CI success is not assumed from local verification.
 
-- GitHub: one repository named `afficionado-coffee-analysis` for code and documentation.
-- Streamlit Community Cloud: required interactive dashboard, deployed from the same repository.
-- Vercel: companion submission page with dashboard and report links. Its root directory will be `website`.
+## Structure
 
-The Vercel page is a companion to the Streamlit app. It does not replace the required analytics dashboard. See `docs/deployment.md`.
+analysis/ contains the reproducible runner. data/public/ contains the licensed bundled CSV gzip and attribution. src/ contains validation and analytical logic. dashboard/ contains Streamlit. reports/ contains finalized documents and verified result evidence. website/ contains the Vercel page and report downloads. docs/ contains methodology and submission guidance. tests/ contains analytical and application checks.
 
-## Planned analytics stack
+Private originals and regenerated data/processed outputs are excluded from Git. The public case study is bundled for fast startup and verified by checksum; the original publisher archive is a fallback. Private uploads are analyzed in the active session and are not saved to the repository.
 
-Python 3.12, pandas, Streamlit, Plotly, and openpyxl for Excel ingestion. Tested direct dependency versions are pinned in requirements.txt. See docs/step-9.md for local setup and launch commands.
+## Limitations and submission
 
-## Data and interpretation
-
-Revenue = transaction_qty × unit_price. Profitability cannot be calculated without cost or margin data. The meaning of `Balance`, currency, dataset coverage, and transaction granularity must be verified during inspection.
-
-Raw and processed transaction files are excluded from Git by default. A deployable data strategy will be selected after inspecting the supplied dataset and its sharing permissions.
-
-## Required deliverables
-
-1. Research paper covering EDA, insights, recommendations, and limitations.
-2. Interactive Streamlit dashboard.
-3. Executive summary for government stakeholders.
-4. GitHub repository and Vercel companion page for the requested submission workflow.
-
-## Next step
-
-Supply the actual CSV or Excel dataset and begin Step 2: dataset inspection.
-
-## Run the dashboard
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run dashboard/app.py
-```
-
-Upload CSV or XLSX data. The app starts with an empty state until a file is uploaded. Required analysis fields are product_id, product_detail, product_category, product_type, store_location, transaction_qty, and unit_price. Keep product IDs as text, including leading zeros.
-
-## Verification
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-Tests use synthetic fixtures solely for verification. Actual business findings require the transaction dataset. Automated GitHub Actions checks are configured for Python 3.12.
-
-## Submission documents
-
-- [Research paper](reports/research/research-paper.md)
-- [Executive summary](reports/executive/executive-summary.md)
-- [Deployment plan](docs/deployment.md)
-- [Dashboard guide](docs/step-9.md)
-
-## Cloud setup
-
-Streamlit Community Cloud: select this repository, main branch, and dashboard/app.py; choose Python 3.12.
-Vercel: import this repository, set Root Directory to website, choose Other framework, and leave the build command empty. Serve website directly as the static output.
-
-Reports currently document methods and verified implementation progress. Empirical findings, profitability claims, and quantitative benefit estimates are pending source data.
-
-## Demonstration mode
-
-Select Explore synthetic demonstration data to preview populated charts without a file. All demo records and results are visibly labelled synthetic and are not retailer findings. Turn it off to analyze uploaded transaction data.
-
-## Live dashboard
-
-https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/
-
-The app is deployed and accepts uploads. Synthetic demonstration mode is optional and visibly labelled. Actual retailer findings remain pending the transaction dataset.
-
-## Live submission page
-
-https://afficionado-coffee-analysis.vercel.app/
+Costs, customer IDs, stock availability, complete unsold menu and service times are absent. Recommendation flags support investigation, not automatic removal. Actual Afficionado conclusions require its company data. Confirm internship acceptance of a public educational case study and the supplied Markdown report format. See docs/submission.md.
 

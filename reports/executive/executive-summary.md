@@ -1,36 +1,46 @@
-# Executive Summary
+# Executive summary
 
-## Product Optimization & Revenue Contribution Analysis for Afficionado Coffee Roasters
+Product Optimization & Revenue Contribution Analysis for Afficionado Coffee Roasters  
+Public dataset case study | Prepared for government stakeholders | 12 October 2026
 
-Prepared for government stakeholders • 12 October 2026
+## Purpose and evidence
 
-### Purpose and business problem
+Retailers need to understand which products sell frequently, which contribute most revenue, and whether a small part of the menu carries the business. This project provides an interactive dashboard and a reproducible analysis to support those decisions.
 
-Afficionado Coffee Roasters needs a clear basis for deciding which products to promote, maintain, or review. The project brief identifies limited visibility into product popularity, revenue contribution, and dependence on particular categories. A product may sell frequently yet contribute relatively little revenue, while a higher-priced item may sell infrequently. Understanding these patterns can support more informed menu and merchandising decisions.
+No actual Afficionado transaction records were available. The completed study uses the public Maven Analytics dataset for Maven Roasters, a fictional coffee business. It contains 149,116 records from three New York City stores covering January–June 2023. These findings illustrate the analytical method and must not be presented as actual Afficionado sales or 2025 results.
 
-### Current evidence and key findings
+## Key findings
 
-The project has an implemented Streamlit dashboard that calculates product revenue from quantity purchased multiplied by unit price. It compares product sales and revenue rankings, measures category and store performance, and identifies how many products generate 80% of revenue. Users can filter by store, category, and product type and download supporting tables.
+The dataset records 214,470 units and 698,812.33 in computed sales revenue across 80 products. Currency is not explicitly specified in the worksheet. All records passed the defined validation rules; no missing cells, duplicate rows or invalid prices/quantities were found.
 
-All 18 calculation and application interaction tests passed using synthetic test records. This establishes evidence of software behavior, rather than evidence of business performance. Actual transaction data has not yet been supplied, so the project cannot currently identify the retailer’s leading products, underperforming items, revenue totals, or category dependency. Real-data validation and business findings remain necessary before the summary can support product-specific decisions.
+Coffee supplies 38.63% of revenue and Tea 28.11%, together 66.74%. Maintaining availability in these categories deserves attention. Revenue is spread evenly across the three stores, with each contributing roughly one-third.
 
-### Recommended actions
+The leading revenue product, Sustainably Grown Organic Lg, generates 21,151.75, or 3.03% of total revenue. Earl Grey Rg leads sales volume at 4,708 units but ranks 26th in revenue, showing why volume and revenue should be examined together. Packaged Dark chocolate has the lowest recorded volume, at 118 units, and revenue of 755.20. Similar product names refer to different IDs and formats.
 
-First, obtain and validate the transaction dataset, confirming its coverage, currency, product identifiers, store mappings, and treatment of returns or discounts. Reconcile all revenue summaries before publishing business findings.
+The top ten products generate 25.38% of revenue. Reaching 80% requires 43 of the 80 products. The top fifth of the menu generates 37.10%, so this case does not follow an 80/20 pattern. The remaining 37 products still contribute 19.48%, making broad menu cuts premature.
 
-Once validated, prioritize availability and visibility for products that combine strong unit sales with strong revenue contribution. Trial targeted promotion for higher-priced products with limited volume but meaningful revenue. Review popular products whose revenue ranking falls behind their volume ranking to understand pricing and product mix.
+## Recommended actions
 
-Investigate low-volume, low-revenue products before redesign or removal. Consider stock availability, product costs, customer feedback, preparation effort, and each item’s role in the menu. Use limited trials and measure the results before permanent changes. The dashboard’s recommendation rules are screening tools, not automatic removal decisions.
+Protect availability and clear menu visibility for a small selection of proven high-volume, high-revenue products. Check margins, supply reliability and preparation capacity before expanding them.
 
-### Expected benefits and measures of success
+Review popular lower-price products in the context of customer choice and complementary purchases. Use small promotion trials for appropriate premium products rather than assuming higher price means higher profitability.
 
-The project is intended to improve visibility into revenue drivers, help focus merchandising effort, and support a simpler menu where the evidence warrants it. More consistent use of documented metrics can also make management decisions easier to explain and review.
+Investigate low-volume products by checking stock availability, shelf life, costs and customer feedback. Trial better placement or redesign before removal. Compare store product mix using consistent periods and normalized shares.
 
-These benefits have not yet been measured. Evaluate subsequent trials using product units sold, revenue contribution, category mix, and revenue concentration over comparable periods. Assess profitability only when cost and margin data are available, and assess operational efficiency using service-time or preparation data. No financial savings, revenue uplift, or public-sector impact is claimed at this stage.
+For use at Afficionado, obtain its actual transactions, full menu and cost data. Measure trial outcomes against a baseline or comparison store. Track units, revenue, margin, stockouts and service time.
 
-### Stakeholder consideration
+## Expected benefits and limits
 
-The immediate priority is to complete the evidence base and validate the proposed actions with the retailer. The planned submission package comprises the research paper, interactive dashboard, and this executive summary. GitHub publication, the live Streamlit dashboard, and the Vercel companion page are complete. Final empirical reporting remains pending. No funding amount, regulatory action, or government endorsement is requested or implied.
+The approach can help managers make more transparent merchandising decisions and prioritize further investigation. It also provides a practical example of data skills for small-business support programmes. Revenue uplift, profit improvement, reduced waste and faster service remain potential benefits, not measured outcomes.
 
-Source basis: supplied internship project brief, implemented analytics modules, and verified test results. This summary should be updated with actual findings after transaction-data validation.
+The dataset has no costs, customer identifiers, availability measures or service times. It cannot support funding decisions, a forecast of financial gains or claims about actual Afficionado performance. Government stakeholders should evaluate evidence and local applicability before supporting an operational rollout.
+
+## Deliverables
+
+The project includes a research paper, this summary, reproducible analysis and a Streamlit dashboard with filters, rankings, category comparisons and revenue concentration charts. The public case study is clearly labelled, and supplied CSV/Excel data can replace it.
+
+Source: [Maven Analytics Coffee Shop Sales](https://mavenanalytics.io/data-playground/coffee-shop-sales), Public Domain.
+
+Dashboard: https://myrmbqv6kjne4hjr2m9vcx.streamlit.app/  
+Repository: https://github.com/mohitkumar9193/afficionado-coffee-analysis
 
